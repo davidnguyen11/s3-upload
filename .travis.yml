@@ -1,0 +1,15 @@
+sudo: false
+language: node_js
+cache:
+  directories:
+    - node_modules
+node_js: '8'
+before_install:
+  - rm yarn.lock
+install: yarn install
+script:
+  - yarn test
+  - yarn run coverage
+after_script: "cat ./coverage/lcov.info | $(npm bin)/codecov"
+branches:
+  only: master

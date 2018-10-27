@@ -1,0 +1,34 @@
+{
+  "name": "s3-upload",
+  "version": "0.0.1",
+  "description": "The simple script allows upload directory to aws s3",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node index.js",
+    "build": "babel src/ --out-dir dist",
+    "sample": "yarn build && node scripts/index.js",
+    "test": "jest test"
+  },
+  "author": "David Nguyen <dzungnguyen179@gmail.com> (dzungnguyen179@gmail.com)",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.342.0",
+    "mime": "^2.3.1",
+    "recursive-readdir": "^2.2.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "chalk": "^2.4.1",
+    "dotenv": "^6.1.0",
+    "jest": "^23.6.0",
+    "mock-aws-s3": "^3.0.0",
+    "sinon": "^7.1.0"
+  },
+  "engines": {
+    "node": ">= 8.0.0"
+  }
+}
