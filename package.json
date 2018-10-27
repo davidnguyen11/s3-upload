@@ -10,7 +10,6 @@
     "test": "jest test"
   },
   "author": "David Nguyen <dzungnguyen179@gmail.com> (dzungnguyen179@gmail.com)",
-  "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.342.0",
     "mime": "^2.3.1",
@@ -30,5 +29,14 @@
   },
   "engines": {
     "node": ">= 8.0.0"
-  }
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davidnguyen179/s3-upload.git"
+  },
+  "bugs": {
+    "url": "https://github.com/davidnguyen179/s3-upload/issues"
+  },
+  "homepage": "https://github.com/davidnguyen179/s3-upload/blob/master/README.md"
 }
