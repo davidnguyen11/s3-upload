@@ -1,5 +1,5 @@
 {
-  "name": "s3-upload",
+  "name": "s3-uploading",
   "version": "0.0.1",
   "description": "The simple script allows upload directory to aws s3",
   "main": "dist/index.js",
