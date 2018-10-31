@@ -60,6 +60,7 @@ function () {
       var _this = this;
 
       var bucket = this.uploadOptions.bucket;
+      var ACL = this.s3Options.ACL;
       var count = this.count;
       files.forEach(function (file) {
         var key = _this.getDirPath(file).join('/');
@@ -73,7 +74,8 @@ function () {
           Bucket: bucket,
           Key: key,
           Body: fileStream,
-          ContentType: _mime.default.getType(file)
+          ContentType: _mime.default.getType(file),
+          ACL: ACL
         });
 
         _this.s3.upload(uploadParams, function (err, data) {

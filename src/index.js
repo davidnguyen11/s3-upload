@@ -28,6 +28,7 @@ class Uploader {
 
   handleUpload(files) {
     const { bucket } = this.uploadOptions
+    const { ACL } = this.s3Options
     let count = this.count
 
     files.forEach(file => {
@@ -42,7 +43,8 @@ class Uploader {
         Bucket: bucket,
         Key: key,
         Body: fileStream,
-        ContentType: mime.getType(file)
+        ContentType: mime.getType(file),
+        ACL
       })
 
       this.s3.upload(uploadParams, function(err, data) {
