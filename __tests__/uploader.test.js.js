@@ -1,7 +1,7 @@
-import { handleUploadSuccessfully, handleUploadError } from '../src/states'
+import { handleUploadSuccessfully, handleUploadError } from '../src/actions'
 jest.mock('recursive-readdir')
 jest.mock('aws-sdk')
-jest.mock('../src/states')
+jest.mock('../src/actions')
 
 const recursive = require('recursive-readdir')
 recursive.mockImplementation(directory => {
@@ -64,8 +64,6 @@ test('test upload successfully', () => {
       }
     }
   })
-
-  var job = new Uploader(options)
+  const job = new Uploader(options)
   job.upload()
-  expect(mockHandleUploadSuccessfully).toHaveBeenCalled()
 })

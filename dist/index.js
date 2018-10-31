@@ -55,30 +55,38 @@ function () {
       });
     }
   }, {
-    key: "handleUpload",
-    value: function handleUpload(files) {
+    key: "getListUploadFiles",
+    value: function getListUploadFiles(files) {
       var _this = this;
 
       var bucket = this.uploadOptions.bucket;
       var ACL = this.s3Options.ACL;
-      var count = this.count;
-      files.forEach(function (file) {
+      return files.map(function (file) {
         var key = _this.getDirPath(file).join('/');
 
         var fileStream = _fs.default.createReadStream(file);
 
         fileStream.on('error', function (err) {
-          this.emitter.emit('fail', "File error: ".concat(err));
+          (0, _actions.handleUploadError)("File error: ".concat(err));
         });
-        var uploadParams = (0, _helpers.getUploadObject)({
+        return (0, _helpers.getUploadObject)({
           Bucket: bucket,
           Key: key,
           Body: fileStream,
           ContentType: _mime.default.getType(file),
           ACL: ACL
         });
+      });
+    }
+  }, {
+    key: "handleUpload",
+    value: function handleUpload(files) {
+      var _this2 = this;
 
-        _this.s3.upload(uploadParams, function (err, data) {
+      var count = this.count;
+      var uploadFiles = this.getListUploadFiles(files);
+      uploadFiles.forEach(function (item) {
+        _this2.s3.upload(item, function (err, data) {
           if (err) {
             (0, _actions.handleUploadError)(err);
           }
@@ -97,11 +105,11 @@ function () {
   }, {
     key: "upload",
     value: function upload() {
-      var _this2 = this;
+      var _this3 = this;
 
       var directory = this.uploadOptions.directory;
       (0, _recursiveReaddir.default)(directory).then(function (files) {
-        _this2.handleUpload(files);
+        _this3.handleUpload(files);
       }).catch(function (err) {
         console.error(_chalk.default.bold.red(err));
       });

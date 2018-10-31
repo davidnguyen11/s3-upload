@@ -26,28 +26,33 @@ class Uploader {
     return filePartials.filter(item => !isNone(item))
   }
 
-  handleUpload(files) {
+  getListUploadFiles(files) {
     const { bucket } = this.uploadOptions
     const { ACL } = this.s3Options
-    let count = this.count
 
-    files.forEach(file => {
+    return files.map(file => {
       const key = this.getDirPath(file).join('/')
       const fileStream = fs.createReadStream(file)
 
       fileStream.on('error', function(err) {
-        this.emitter.emit('fail', `File error: ${err}`)
+        handleUploadError(`File error: ${err}`)
       })
 
-      const uploadParams = getUploadObject({
+      return getUploadObject({
         Bucket: bucket,
         Key: key,
         Body: fileStream,
         ContentType: mime.getType(file),
         ACL
       })
+    })
+  }
 
-      this.s3.upload(uploadParams, function(err, data) {
+  handleUpload(files) {
+    let count = this.count
+    const uploadFiles = this.getListUploadFiles(files)
+    uploadFiles.forEach(item => {
+      this.s3.upload(item, function(err, data) {
         if (err) {
           handleUploadError(err)
         }
