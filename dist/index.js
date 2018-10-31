@@ -7,6 +7,8 @@ exports.default = void 0;
 
 var _fs = _interopRequireDefault(require("fs"));
 
+var _chalk = _interopRequireDefault(require("chalk"));
+
 var _awsSdk = require("aws-sdk");
 
 var _mime = _interopRequireDefault(require("mime"));
@@ -98,6 +100,8 @@ function () {
       var directory = this.uploadOptions.directory;
       (0, _recursiveReaddir.default)(directory).then(function (files) {
         _this2.handleUpload(files);
+      }).catch(function (err) {
+        console.error(_chalk.default.bold.red(err));
       });
     }
   }]);

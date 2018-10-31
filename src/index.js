@@ -1,4 +1,5 @@
 import fs from 'fs'
+import chalk from 'chalk'
 import { S3 } from 'aws-sdk'
 import mime from 'mime'
 import recursive from 'recursive-readdir'
@@ -59,9 +60,13 @@ class Uploader {
 
   upload() {
     const { directory } = this.uploadOptions
-    recursive(directory).then(files => {
-      this.handleUpload(files)
-    })
+    recursive(directory)
+      .then(files => {
+        this.handleUpload(files)
+      })
+      .catch(err => {
+        console.error(chalk.bold.red(err))
+      })
   }
 }
 
