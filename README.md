@@ -26,6 +26,7 @@ const options = {
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     endpoint: process.env.AWS_HOST_BUCKET,
     region: '',
+    ACL: 'public-read',
     sslEnabled: false
   },
   upload: {
