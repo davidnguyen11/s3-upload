@@ -1,6 +1,6 @@
 # S3 Uploading
 
-The small lib which allows to upload directory to S3.
+The small lib which allows to upload directory to AWS S3.
 
 ## Installation
 

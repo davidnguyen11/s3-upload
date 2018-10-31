@@ -1,7 +1,7 @@
 {
   "name": "s3-uploading",
   "version": "0.0.2",
-  "description": "The simple script allows upload directory to aws s3",
+  "description": "The small lib which allows to upload directory to AWS S3.",
   "main": "dist/index.js",
   "scripts": {
     "start": "node index.js",
