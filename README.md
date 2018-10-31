@@ -40,7 +40,7 @@ uploading.upload()
 
 **run**
 ```bash
-node upload.js
+AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID> AWS_SECRET_ACCESS_KEY=<AWS_SECRET_ACCESS_KEY> AWS_HOST_BUCKET=<AWS_HOST_BUCKET> node upload.js
 ```
 
 ## Options
