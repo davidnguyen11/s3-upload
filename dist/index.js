@@ -15,7 +15,7 @@ var _recursiveReaddir = _interopRequireDefault(require("recursive-readdir"));
 
 var _helpers = require("./helpers");
 
-var _states = require("./states");
+var _actions = require("./actions");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -44,17 +44,24 @@ function () {
   }
 
   _createClass(Uploader, [{
+    key: "getDirPath",
+    value: function getDirPath(filePath) {
+      var directory = this.uploadOptions.directory;
+      var filePartials = filePath.replace(directory, '').split('/');
+      return filePartials.filter(function (item) {
+        return !(0, _helpers.isNone)(item);
+      });
+    }
+  }, {
     key: "handleUpload",
     value: function handleUpload(files) {
       var _this = this;
 
-      var _this$uploadOptions = this.uploadOptions,
-          bucket = _this$uploadOptions.bucket,
-          directory = _this$uploadOptions.directory;
-      var partialDirs = directory.split('/');
-      var finalPart = partialDirs[partialDirs.length - 1];
+      var bucket = this.uploadOptions.bucket;
       var count = this.count;
       files.forEach(function (file) {
+        var key = _this.getDirPath(file).join('/');
+
         var fileStream = _fs.default.createReadStream(file);
 
         fileStream.on('error', function (err) {
@@ -62,19 +69,19 @@ function () {
         });
         var uploadParams = (0, _helpers.getUploadObject)({
           Bucket: bucket,
-          Key: file.replace(directory, finalPart),
+          Key: key,
           Body: fileStream,
           ContentType: _mime.default.getType(file)
         });
 
         _this.s3.upload(uploadParams, function (err, data) {
           if (err) {
-            (0, _states.handleUploadError)(err);
+            (0, _actions.handleUploadError)(err);
           }
 
           if (data) {
             count++;
-            (0, _states.handleUploadSuccessfully)({
+            (0, _actions.handleUploadSuccessfully)({
               data: data,
               fileLength: files.length,
               count: count

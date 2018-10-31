@@ -4,7 +4,7 @@ import mime from 'mime'
 import recursive from 'recursive-readdir'
 
 import { getUploadObject, isNone } from './helpers'
-import { handleUploadSuccessfully, handleUploadError } from './states'
+import { handleUploadSuccessfully, handleUploadError } from './actions'
 
 class Uploader {
   constructor(options) {
@@ -19,13 +19,18 @@ class Uploader {
     this.s3 = new S3(this.s3Options)
   }
 
+  getDirPath(filePath) {
+    const { directory } = this.uploadOptions
+    let filePartials = filePath.replace(directory, '').split('/')
+    return filePartials.filter(item => !isNone(item))
+  }
+
   handleUpload(files) {
-    const { bucket, directory } = this.uploadOptions
-    const partialDirs = directory.split('/')
-    const finalPart = partialDirs[partialDirs.length - 1]
+    const { bucket } = this.uploadOptions
     let count = this.count
 
     files.forEach(file => {
+      const key = this.getDirPath(file).join('/')
       const fileStream = fs.createReadStream(file)
 
       fileStream.on('error', function(err) {
@@ -34,10 +39,11 @@ class Uploader {
 
       const uploadParams = getUploadObject({
         Bucket: bucket,
-        Key: file.replace(directory, finalPart),
+        Key: key,
         Body: fileStream,
         ContentType: mime.getType(file)
       })
+
       this.s3.upload(uploadParams, function(err, data) {
         if (err) {
           handleUploadError(err)
