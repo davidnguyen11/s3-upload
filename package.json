@@ -10,6 +10,15 @@
     "test": "jest test"
   },
   "author": "David Nguyen <dzungnguyen179@gmail.com> (dzungnguyen179@gmail.com)",
+  "keywords": [
+    "s3",
+    "aws",
+    "amazon",
+    "s3-uploading",
+    "s3-uploader",
+    "nodejs",
+    "script"
+  ],
   "dependencies": {
     "aws-sdk": "^2.342.0",
     "mime": "^2.3.1",
